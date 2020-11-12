@@ -1,17 +1,15 @@
 <%- include('partials/header') -%> 
 
 <div>
-    
-    <% notes.forEach(note => { %>
+    <% notes.forEach(note => { %>   
     <form action="/delete" method="POST">
         <input type="hidden" name="noteId" value="<%= note.id %>" onChange="this.form.submit()">
-            <button type="submit" class="btn btn-outline-danger btn-sm" >Delete Note</button>
+    <button type="submit" class="btn btn-danger pull-left"><i class="fas fa-trash-alt"></i></button>
         </input>
-</form>
-    <h1><%= note.title %></h1>
-    <p><%= note.content.substring(0,100) + "... " %><span><a href="posts/<%= note.title %>" >Read More</a></span></p>
+        <h1><%= note.title %></h1>
+        <p><%= note.content.substring(0,100) + "... " %><span><a href="posts/<%= note.title %>" >Read More</a></span></p>
     <% }) %>
-    
+</form>
 </div>
 
 <%- include('partials/footer') -%> 
