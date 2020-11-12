@@ -1,0 +1,12 @@
+<%- include('partials/header') -%> 
+
+<div>
+
+    <% logs.forEach(log => { %>
+    <h1><%= log.title %></h1>
+    <p><%= log.entry.substring(0,100) + "... " %><span><a href="posts/<%= log.title %>" >Read More</a></span></p>
+    <% }) %>
+    
+</div>
+
+<%- include('partials/footer') -%> 
