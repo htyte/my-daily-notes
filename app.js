@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require("lodash");
 const mongoose = require("mongoose");
-const { rest } = require("lodash");
 
 const aboutContent = "A space to quickly right notes and ideas while surfing on the net.";
 const placeholderContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquam id diam maecenas ultricies mi eget. Pulvinar sapien et ligula ullamcorper malesuada proin. Pharetra et ultrices neque ornare."
@@ -39,18 +38,7 @@ const defaultNotes = [note1, note2]
 
 //Routes
 app.get('/', (req,res) => {
-  
   Note.find({}, function(err,results) {
-    // if(results.length === 0) {
-    //   Note.insertMany(defaultNotes, function(err) {
-    //     if(err) {
-    //       console.log(err);
-    //     } else {
-    //       console.log("Successfully addded defaultNotes into DB")
-    //     }
-    //   })
-    //   res.redirect('/')
-    // } else {
       if(err) {
         console.log(err)
       } else {
@@ -101,13 +89,6 @@ app.post('/delete', (req, res) => {
     }
   })
 })
-
-
-
-
-
-
-
 
 app.listen(3000, function() {
   console.log("Server started on port 3000");
