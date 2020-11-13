@@ -1,8 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const ejs = require("ejs");
-const _ = require("lodash");
 const mongoose = require("mongoose");
+const port = process.env.PORT || 3000;
 
 const aboutContent = "A space to quickly right notes and ideas while surfing on the net.";
 const placeholderContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquam id diam maecenas ultricies mi eget. Pulvinar sapien et ligula ullamcorper malesuada proin. Pharetra et ultrices neque ornare."
@@ -14,10 +13,12 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-//DB Connect
-mongoose.connect("mongodb://localhost:27017/notesDB", { useNewUrlParser: true, useUnifiedTopology: true }, )
+//DB Connect Local
+//mongoose.connect("mongodb://localhost:27017/notesDB", { useNewUrlParser: true, useUnifiedTopology: true });
 
-//Note Schema
+//DB Connect Prod
+mongoose.connect(`mongodb+srv://${process.env.USERNAME}:${process.env.KEY}@cluster0.212ma.mongodb.net/${process.env.DATABASE}`, {useNewUrlParser: true, useUnifiedTopology: true } );
+
 const noteSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -29,12 +30,11 @@ const noteSchema = new mongoose.Schema({
   }
 })
 
-//Note Model
 const Note = mongoose.model('Note', noteSchema);
-const note1 = new Note({title: "November 12th, 2020", content: placeholderContent});
-const note2 = new Note({title: "Hmph...", content: placeholderContent});
-
-const defaultNotes = [note1, note2]
+// For test use
+// const note1 = new Note({title: "November 12th, 2020", content: placeholderContent});
+// const note2 = new Note({title: "Hmph...", content: placeholderContent});
+// const defaultNotes = [note1, note2] 
 
 //Routes
 app.get('/', (req,res) => {
@@ -58,9 +58,7 @@ app.get('/contact', (req,res) => {
 
 app.get('/posts/:title', (req, res) => {
   const title = req.params.title;
-  console.log("params::: ",req.params)
   Note.findOne({title: title}, function(err, result) {
-    console.log("result::::",result)
     if(err) {
       console.log(err)
     } else {
@@ -90,6 +88,6 @@ app.post('/delete', (req, res) => {
   })
 })
 
-app.listen(3000, function() {
+app.listen(port, function() {
   console.log("Server started on port 3000");
 });
